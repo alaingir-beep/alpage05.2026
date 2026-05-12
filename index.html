@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Alpage Inteligência – www.alpage.com.br</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --navy: #1a2340;
+      --navy-light: #243058;
+      --gold: #b8922a;
+      --gold-light: #d4aa4a;
+      --white: #ffffff;
+      --off-white: #f7f6f3;
+      --text: #2c2c2c;
+      --text-light: #555;
+      --border: #e0ddd8;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Outfit', sans-serif;
+      color: var(--text);
+      background: var(--white);
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 48px;
+      height: 64px;
+      background: rgba(255,255,255,0.96);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+      transition: box-shadow 0.3s;
+    }
+    nav.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.08); }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+    }
+    .nav-logo svg { width: 36px; height: 36px; }
+    .nav-logo span {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 500;
+      font-size: 13px;
+      color: var(--navy);
+      letter-spacing: 0.04em;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 36px;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: 13px;
+      font-weight: 400;
+      color: var(--navy);
+      text-decoration: none;
+      letter-spacing: 0.03em;
+      transition: color 0.2s;
+      position: relative;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -2px; left: 0; right: 0;
+      height: 1px;
+      background: var(--gold);
+      transform: scaleX(0);
+      transition: transform 0.25s ease;
+    }
+    .nav-links a:hover { color: var(--gold); }
+    .nav-links a:hover::after { transform: scaleX(1); }
+
+    /* ── HERO ── */
+    #home {
+      position: relative;
+      height: 100vh;
+      min-height: 600px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      background: var(--navy);
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 50% 40%, rgba(184,146,42,0.12) 0%, transparent 70%),
+        linear-gradient(160deg, #0e1628 0%, #1a2340 50%, #0e1628 100%);
+    }
+
+    /* geometric lines */
+    .hero-lines {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      opacity: 0.07;
+    }
+    .hero-lines svg { width: 100%; height: 100%; }
+
+    .hero-content {
+      position: relative;
+      text-align: center;
+      padding: 0 24px;
+      animation: fadeUp 1s ease both;
+    }
+
+    /* SVG logo mark in hero */
+    .hero-logomark {
+      width: 160px;
+      height: 160px;
+      margin: 0 auto 32px;
+      opacity: 0;
+      animation: fadeUp 1s 0.2s ease both;
+    }
+
+    .hero-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(42px, 7vw, 80px);
+      font-weight: 300;
+      color: var(--white);
+      letter-spacing: 0.12em;
+      line-height: 1;
+      margin-bottom: 8px;
+      opacity: 0;
+      animation: fadeUp 1s 0.3s ease both;
+    }
+    .hero-title strong {
+      font-weight: 600;
+      color: var(--gold-light);
+    }
+
+    .hero-subtitle {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(16px, 2.5vw, 22px);
+      font-weight: 300;
+      font-style: italic;
+      color: rgba(255,255,255,0.65);
+      letter-spacing: 0.06em;
+      margin-top: 20px;
+      opacity: 0;
+      animation: fadeUp 1s 0.5s ease both;
+    }
+
+    .hero-tagline {
+      margin-top: 36px;
+      font-size: 14px;
+      font-weight: 300;
+      color: rgba(255,255,255,0.5);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      opacity: 0;
+      animation: fadeUp 1s 0.7s ease both;
+    }
+
+    .hero-scroll {
+      position: absolute;
+      bottom: 36px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      opacity: 0;
+      animation: fadeIn 1s 1.2s ease both;
+    }
+    .hero-scroll span {
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.3);
+    }
+    .scroll-line {
+      width: 1px;
+      height: 40px;
+      background: linear-gradient(to bottom, rgba(184,146,42,0.6), transparent);
+      animation: scrollPulse 2s 1.5s ease-in-out infinite;
+    }
+
+    /* ── SECTION BASE ── */
+    section { padding: 96px 0; }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 48px;
+    }
+
+    .section-label {
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 16px;
+      font-weight: 500;
+    }
+
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(32px, 4vw, 48px);
+      font-weight: 300;
+      color: var(--navy);
+      line-height: 1.15;
+      margin-bottom: 32px;
+    }
+
+    hr.divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 0;
+    }
+
+    /* ── QUEM SOMOS ── */
+    #quem-somos {
+      background: var(--white);
+    }
+
+    .tagline-block {
+      text-align: center;
+      padding: 64px 48px;
+      border-bottom: 1px solid var(--border);
+    }
+    .tagline-block p {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(20px, 3vw, 30px);
+      font-weight: 400;
+      color: var(--gold);
+      font-style: italic;
+      line-height: 1.4;
+      max-width: 820px;
+      margin: 0 auto;
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      padding: 64px 0 48px;
+    }
+
+    .about-text p {
+      font-size: 15px;
+      line-height: 1.8;
+      color: var(--text-light);
+      margin-bottom: 20px;
+    }
+    .about-text p:last-child { margin-bottom: 0; }
+
+    .problems-block {
+      border-top: 1px solid var(--border);
+      padding-top: 48px;
+    }
+
+    .problems-block h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 26px;
+      font-weight: 600;
+      color: var(--gold);
+      margin-bottom: 20px;
+    }
+
+    .problems-block > p {
+      font-size: 15px;
+      line-height: 1.7;
+      color: var(--text-light);
+      margin-bottom: 20px;
+    }
+
+    .problems-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .problems-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--text-light);
+    }
+    .problems-list li::before {
+      content: '';
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--gold);
+      flex-shrink: 0;
+      margin-top: 8px;
+    }
+
+    /* profiles */
+    .profiles-block {
+      background: var(--navy);
+      padding: 64px 0;
+      margin-top: 64px;
+    }
+    .profiles-block .container { }
+    .profiles-block .section-label { color: var(--gold-light); }
+    .profiles-block .section-title { color: var(--white); }
+
+    .profiles-intro {
+      font-size: 14px;
+      color: rgba(255,255,255,0.6);
+      margin-bottom: 36px;
+      line-height: 1.7;
+    }
+
+    .profiles-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+    .profile-card {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 2px;
+      padding: 28px;
+      transition: border-color 0.3s, background 0.3s;
+    }
+    .profile-card:hover {
+      border-color: rgba(184,146,42,0.4);
+      background: rgba(255,255,255,0.08);
+    }
+    .profile-card h4 {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--gold-light);
+      margin-bottom: 10px;
+    }
+    .profile-card p {
+      font-size: 13px;
+      line-height: 1.7;
+      color: rgba(255,255,255,0.6);
+    }
+
+    /* ── SERVICOS ── */
+    #servicos {
+      background: var(--off-white);
+    }
+
+    .servicos-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      margin-top: 48px;
+    }
+
+    .servico-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      overflow: hidden;
+      transition: box-shadow 0.3s, transform 0.3s;
+    }
+    .servico-card:hover {
+      box-shadow: 0 12px 40px rgba(0,0,0,0.1);
+      transform: translateY(-4px);
+    }
+
+    .servico-img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+      display: block;
+      background: var(--navy);
+    }
+
+    /* placeholder image blocks */
+    .servico-img-placeholder {
+      width: 100%;
+      height: 220px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 40px;
+    }
+    .img-comercial { background: linear-gradient(135deg, #1a2340 0%, #2d3f6b 100%); }
+    .img-canais    { background: linear-gradient(135deg, #0e1f3d 0%, #1a3a5c 100%); }
+    .img-marketing { background: linear-gradient(135deg, #1a2340 0%, #243058 100%); }
+    .img-expansao  { background: linear-gradient(135deg, #0d2137 0%, #1a3a2a 100%); }
+
+    .servico-body {
+      padding: 28px 32px 32px;
+    }
+    .servico-body h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 22px;
+      font-weight: 600;
+      color: var(--gold);
+      margin-bottom: 12px;
+    }
+    .servico-body p {
+      font-size: 14px;
+      line-height: 1.7;
+      color: var(--text-light);
+    }
+
+    /* ── LIDERANCA ── */
+    #lideranca {
+      background: var(--white);
+    }
+
+    .lideranca-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.4fr;
+      gap: 72px;
+      align-items: start;
+      margin-top: 48px;
+    }
+
+    .lideranca-photo {
+      position: relative;
+    }
+    .lideranca-photo img {
+      width: 100%;
+      display: block;
+      filter: grayscale(15%);
+    }
+    .lideranca-photo::after {
+      content: '';
+      position: absolute;
+      bottom: -12px; right: -12px;
+      width: 80%;
+      height: 80%;
+      border: 2px solid var(--gold);
+      z-index: -1;
+    }
+
+    .lideranca-bio p {
+      font-size: 15px;
+      line-height: 1.8;
+      color: var(--text-light);
+      margin-bottom: 18px;
+    }
+    .lideranca-bio a {
+      color: var(--gold);
+      text-decoration: none;
+    }
+    .lideranca-bio a:hover { text-decoration: underline; }
+
+    .valores-block {
+      margin-top: 36px;
+      border-top: 1px solid var(--border);
+      padding-top: 28px;
+    }
+    .valores-block h4 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--navy);
+      margin-bottom: 20px;
+      text-decoration: underline;
+      text-underline-offset: 4px;
+      text-decoration-color: var(--gold);
+    }
+    .valores-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .valores-list li {
+      font-size: 14px;
+      line-height: 1.65;
+      color: var(--text-light);
+    }
+    .valores-list li strong {
+      color: var(--navy);
+      font-weight: 600;
+    }
+
+    /* ── CONTATO ── */
+    #contato {
+      background: var(--navy);
+      padding: 120px 0;
+      text-align: center;
+    }
+
+    #contato .section-label { color: var(--gold-light); }
+
+    .contato-logo {
+      width: 120px;
+      margin: 0 auto 40px;
+      opacity: 0.9;
+    }
+
+    #contato .section-title {
+      color: var(--white);
+      margin-bottom: 0;
+    }
+
+    .contato-text {
+      margin-top: 36px;
+      font-size: 15px;
+      line-height: 1.9;
+      color: rgba(255,255,255,0.6);
+    }
+    .contato-text em {
+      display: block;
+      font-style: italic;
+      font-size: 13px;
+      margin-top: 6px;
+      color: rgba(255,255,255,0.4);
+    }
+
+    .contato-email {
+      display: inline-block;
+      margin-top: 40px;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(22px, 3vw, 32px);
+      font-weight: 300;
+      color: var(--gold-light);
+      text-decoration: none;
+      letter-spacing: 0.04em;
+      border-bottom: 1px solid rgba(184,146,42,0.3);
+      padding-bottom: 4px;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .contato-email:hover {
+      color: var(--white);
+      border-color: rgba(255,255,255,0.4);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: #0a1020;
+      padding: 24px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    footer p {
+      font-size: 12px;
+      color: rgba(255,255,255,0.25);
+      letter-spacing: 0.04em;
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+    @keyframes scrollPulse {
+      0%, 100% { opacity: 0.4; transform: scaleY(1); }
+      50%       { opacity: 1;   transform: scaleY(1.2); }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      nav { padding: 0 20px; }
+      .nav-links { gap: 18px; }
+      .nav-links a { font-size: 12px; }
+      .container { padding: 0 24px; }
+      section { padding: 64px 0; }
+      .about-grid,
+      .servicos-grid,
+      .lideranca-grid,
+      .profiles-grid { grid-template-columns: 1fr; gap: 32px; }
+      .tagline-block { padding: 48px 24px; }
+      footer { flex-direction: column; gap: 8px; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="#home" class="nav-logo">
+    <!-- Inline SVG logo mark (mountain + arrow) -->
+    <svg viewBox="0 0 60 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <polygon points="30,4 10,42 50,42" fill="#1a2340" opacity="0.15"/>
+      <polygon points="30,4 18,28 30,22 42,28" fill="#1a2340"/>
+      <polygon points="22,28 10,42 38,42" fill="#1a2340" opacity="0.6"/>
+      <path d="M34 20 L52 6" stroke="#b8922a" stroke-width="2.5" stroke-linecap="round"/>
+      <polygon points="52,6 44,8 50,14" fill="#b8922a"/>
+    </svg>
+    <span>www.alpage.com.br</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#quem-somos">Quem somos</a></li>
+    <li><a href="#servicos">Nossos serviços</a></li>
+    <li><a href="#lideranca">Liderança</a></li>
+    <li><a href="#contato">Contato</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="home">
+  <div class="hero-bg"></div>
+  <div class="hero-lines">
+    <svg viewBox="0 0 1440 800" preserveAspectRatio="xMidYMid slice">
+      <line x1="0" y1="400" x2="1440" y2="400" stroke="white" stroke-width="0.5"/>
+      <line x1="720" y1="0" x2="720" y2="800" stroke="white" stroke-width="0.5"/>
+      <circle cx="720" cy="400" r="200" stroke="white" stroke-width="0.5" fill="none"/>
+      <circle cx="720" cy="400" r="350" stroke="white" stroke-width="0.5" fill="none"/>
+    </svg>
+  </div>
+  <div class="hero-content">
+    <!-- Mountain + arrow SVG logo large -->
+    <svg class="hero-logomark" viewBox="0 0 200 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- mountain body -->
+      <polygon points="100,18 30,150 170,150" fill="rgba(255,255,255,0.04)"/>
+      <!-- snow cap -->
+      <polygon points="100,18 78,75 100,60 122,75" fill="#1e3a6e"/>
+      <!-- left face -->
+      <polygon points="78,75 30,150 130,150" fill="#243058"/>
+      <!-- right face -->
+      <polygon points="122,75 170,150 130,150" fill="#1a2b4a"/>
+      <!-- bottom sweep left -->
+      <path d="M20 155 Q100 135 180 155" stroke="rgba(184,146,42,0.5)" stroke-width="1.5" fill="none"/>
+      <!-- arrow line -->
+      <path d="M115 58 L168 18" stroke="#b8922a" stroke-width="3" stroke-linecap="round"/>
+      <!-- arrow head -->
+      <polygon points="168,18 154,22 162,34" fill="#b8922a"/>
+    </svg>
+
+    <h1 class="hero-title">ALPAGE <strong>INTELIGÊNCIA</strong></h1>
+    <p class="hero-subtitle">Consultoria em Vendas & Marketing B2B</p>
+    <p class="hero-tagline">Brasil · América Latina · Europa</p>
+  </div>
+  <div class="hero-scroll">
+    <span>Descubra</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- QUEM SOMOS -->
+<section id="quem-somos">
+  <div class="tagline-block">
+    <p>Seu mercado está lá. A gente ajuda a identificá-lo e construir o caminho para chegar até ele.</p>
+  </div>
+
+  <div class="container">
+    <div class="about-grid reveal">
+      <div class="about-text">
+        <div class="section-label">Quem somos</div>
+        <p>A ALPAGE INTELIGÊNCIA nasceu de 30 anos de experiência construindo operações comerciais em empresas industriais de grande porte no Brasil, na América Latina e na Europa. Somos especialistas em vendas e marketing B2B porque já estivemos no seu lugar — gerenciando equipes, definindo canais, batendo metas e tomando decisões com pressão real de mercado.</p>
+        <p>Hoje, colocamos esse conhecimento a serviço de empresas que querem crescer com estrutura: sem atalhos, sem soluções genéricas, com parceria de verdade.</p>
+      </div>
+      <div class="problems-block">
+        <h3>Os problemas que resolvemos :</h3>
+        <p>Muitas empresas industriais têm um produto sólido e uma equipe dedicada — mas uma estrutura comercial e marketing que não acompanha o potencial de mercado. Os sintomas são conhecidos:</p>
+        <ul class="problems-list">
+          <li>Vendas dependentes de relacionamentos individuais, sem processo replicável.</li>
+          <li>Canais de distribuição mal definidos, com sobreposição e conflito entre parceiros.</li>
+          <li>Marketing desconectado da área comercial — comunicação sem impacto em receita.</li>
+          <li>Falta de inteligência de mercado para priorizar segmentos e oportunidades.</li>
+          <li>Dificuldade de entrada em novos mercados ou segmentos no Brasil e na América Latina.</li>
+          <li>Esses problemas custam receita, margem e tempo. E raramente se resolvem com mais esforço — se resolvem com estrutura.</li>
+          <li>Falta de posicionamento da marca e dos produtos dificultando a visibilidade da empresa no mercado.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="profiles-block reveal">
+    <div class="container">
+      <div class="section-label">Para quem trabalhamos</div>
+      <h2 class="section-title">Nossos clientes</h2>
+      <p class="profiles-intro">ALPAGE INTELIGÊNCIA atende preferencialmente empresas com os seguintes perfis:</p>
+      <div class="profiles-grid">
+        <div class="profile-card">
+          <h4>Empresas industriais B2B</h4>
+          <p>Empresas industriais e B2B de médio e grande porte que precisam estruturar ou reorganizar sua operação comercial.</p>
+        </div>
+        <div class="profile-card">
+          <h4>Multinacionais em expansão</h4>
+          <p>Empresas estrangeiras — especialmente europeias e francesas — que buscam entrar no mercado brasileiro ou expandir na América Latina.</p>
+        </div>
+        <div class="profile-card">
+          <h4>Empresas em crescimento acelerado</h4>
+          <p>Empresas em fase de crescimento que precisam profissionalizar vendas e marketing para escalar com consistência.</p>
+        </div>
+        <div class="profile-card">
+          <h4>Lideranças com demanda pontual</h4>
+          <p>Líderes que precisam de um parceiro sênior para projetos específicos — pesquisa de mercado, go-to-market, desenvolvimento de canais.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NOSSOS SERVIÇOS -->
+<section id="servicos">
+  <div class="container">
+    <div class="section-label">O que fazemos</div>
+    <h2 class="section-title">Nossos serviços</h2>
+    <div class="servicos-grid">
+
+      <div class="servico-card reveal">
+        <div class="servico-img-placeholder img-comercial">
+          <svg width="80" height="60" viewBox="0 0 80 60" fill="none">
+            <rect x="10" y="15" width="60" height="35" rx="2" stroke="rgba(184,146,42,0.6)" stroke-width="1.5" fill="none"/>
+            <line x1="10" y1="25" x2="70" y2="25" stroke="rgba(184,146,42,0.4)" stroke-width="1"/>
+            <polyline points="20,45 30,32 45,38 60,20" stroke="rgba(184,146,42,0.8)" stroke-width="2" fill="none"/>
+            <circle cx="60" cy="20" r="3" fill="#b8922a"/>
+          </svg>
+        </div>
+        <div class="servico-body">
+          <h3>Estruturação comercial</h3>
+          <p>Diagnóstico e redesenho da força de vendas: processos, papéis, metas e modelo de atuação</p>
+        </div>
+      </div>
+
+      <div class="servico-card reveal">
+        <div class="servico-img-placeholder img-canais">
+          <svg width="80" height="60" viewBox="0 0 80 60" fill="none">
+            <circle cx="40" cy="30" r="10" stroke="rgba(184,146,42,0.7)" stroke-width="1.5" fill="none"/>
+            <circle cx="15" cy="15" r="5" stroke="rgba(184,146,42,0.5)" stroke-width="1" fill="none"/>
+            <circle cx="65" cy="15" r="5" stroke="rgba(184,146,42,0.5)" stroke-width="1" fill="none"/>
+            <circle cx="15" cy="45" r="5" stroke="rgba(184,146,42,0.5)" stroke-width="1" fill="none"/>
+            <circle cx="65" cy="45" r="5" stroke="rgba(184,146,42,0.5)" stroke-width="1" fill="none"/>
+            <line x1="20" y1="17" x2="32" y2="24" stroke="rgba(184,146,42,0.4)" stroke-width="1"/>
+            <line x1="60" y1="17" x2="48" y2="24" stroke="rgba(184,146,42,0.4)" stroke-width="1"/>
+            <line x1="20" y1="43" x2="32" y2="36" stroke="rgba(184,146,42,0.4)" stroke-width="1"/>
+            <line x1="60" y1="43" x2="48" y2="36" stroke="rgba(184,146,42,0.4)" stroke-width="1"/>
+          </svg>
+        </div>
+        <div class="servico-body">
+          <h3>Canais e go-to-market</h3>
+          <p>Definição de política de canais, seleção e desenvolvimento de distribuidores e parceiros</p>
+        </div>
+      </div>
+
+      <div class="servico-card reveal">
+        <div class="servico-img-placeholder img-marketing">
+          <svg width="80" height="60" viewBox="0 0 80 60" fill="none">
+            <rect x="8" y="8" width="28" height="20" rx="1.5" stroke="rgba(184,146,42,0.5)" stroke-width="1" fill="none"/>
+            <rect x="44" y="8" width="28" height="20" rx="1.5" stroke="rgba(184,146,42,0.5)" stroke-width="1" fill="none"/>
+            <rect x="26" y="32" width="28" height="20" rx="1.5" stroke="rgba(184,146,42,0.7)" stroke-width="1.5" fill="none"/>
+            <line x1="22" y1="28" x2="30" y2="32" stroke="rgba(184,146,42,0.4)" stroke-width="1"/>
+            <line x1="58" y1="28" x2="50" y2="32" stroke="rgba(184,146,42,0.4)" stroke-width="1"/>
+          </svg>
+        </div>
+        <div class="servico-body">
+          <h3>Marketing B2B</h3>
+          <p>Inteligência de mercado, segmentação, posicionamento e proposta de valor conectados à área comercial</p>
+        </div>
+      </div>
+
+      <div class="servico-card reveal">
+        <div class="servico-img-placeholder img-expansao">
+          <svg width="80" height="60" viewBox="0 0 80 60" fill="none">
+            <ellipse cx="40" cy="30" rx="28" ry="22" stroke="rgba(184,146,42,0.4)" stroke-width="1" fill="none"/>
+            <ellipse cx="40" cy="30" rx="15" ry="22" stroke="rgba(184,146,42,0.3)" stroke-width="1" fill="none"/>
+            <line x1="12" y1="30" x2="68" y2="30" stroke="rgba(184,146,42,0.3)" stroke-width="1"/>
+            <path d="M55 12 L65 6" stroke="#b8922a" stroke-width="2" stroke-linecap="round"/>
+            <polygon points="65,6 58,8 62,14" fill="#b8922a"/>
+          </svg>
+        </div>
+        <div class="servico-body">
+          <h3>Expansão de mercado</h3>
+          <p>Suporte a empresas estrangeiras que buscam entrar ou crescer no Brasil e na LATAM</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- LIDERANÇA -->
+<section id="lideranca">
+  <div class="container">
+    <div class="section-label">Quem lidera</div>
+    <h2 class="section-title">Liderança</h2>
+    <div class="lideranca-grid reveal">
+      <div class="lideranca-photo">
+        <!-- Photo placeholder — replace src with actual photo -->
+        <div style="width:100%;aspect-ratio:3/4;background:linear-gradient(160deg,#1a2340,#2d4070);display:flex;align-items:center;justify-content:center;">
+          <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
+            <circle cx="40" cy="28" r="18" stroke="rgba(184,146,42,0.5)" stroke-width="1.5" fill="rgba(255,255,255,0.05)"/>
+            <path d="M10 72 Q40 50 70 72" stroke="rgba(184,146,42,0.5)" stroke-width="1.5" fill="rgba(255,255,255,0.03)"/>
+          </svg>
+        </div>
+        <!-- <img src="alain-girard.jpg" alt="Alain Girard" /> -->
+      </div>
+      <div class="lideranca-bio">
+        <p>Formado em engenharia na França e em Negócios Internacionais pela FGV no Brasil, <a href="https://www.linkedin.com/in/alaingirard" target="_blank">Alain Girard</a> tem mais de 30 anos de carreira em vendas e marketing B2B — com passagens por Europa, África e América do Sul.</p>
+        <p>No Brasil desde 2004, liderou as áreas de Vendas e Marketing de várias empresas multinacionais. Ele estruturou operações comerciais do zero, criou redes de distribuição, posicionou a marca e desenvolveu novos mercados. Liderou transformações e inovação que geraram crescimento real e mensurável.</p>
+        <p>Fundou a <strong>ALPAGE INTELIGÊNCIA</strong> para colocar esse know-how a serviço de empresas que precisam de um parceiro comercial experiente — sem a estrutura e o custo de uma grande consultoria, mas com o nível de profundidade e comprometimento de quem já esteve na linha de frente.</p>
+        <div class="valores-block">
+          <h4>Nossos valores</h4>
+          <ul class="valores-list">
+            <li><strong>Parceria de verdade.</strong> Construímos junto — nenhum diagnóstico entregue à distância.</li>
+            <li><strong>Execução antes de teoria.</strong> Saímos do PowerPoint e vamos ao campo.</li>
+            <li><strong>Orientação a resultado.</strong> Cada recomendação tem um número por trás.</li>
+            <li><strong>Disciplina da execução.</strong> Porque um bom plano só vira resultado quando é executado com rigor.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTATO -->
+<section id="contato">
+  <div class="container">
+    <!-- Logo SVG centered -->
+    <svg class="contato-logo" viewBox="0 0 200 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <polygon points="100,18 78,75 100,60 122,75" fill="#1e3a8a"/>
+      <polygon points="78,75 30,150 130,150" fill="#243058"/>
+      <polygon points="122,75 170,150 130,150" fill="#1a2b4a"/>
+      <path d="M115 58 L168 18" stroke="#b8922a" stroke-width="3" stroke-linecap="round"/>
+      <polygon points="168,18 154,22 162,34" fill="#b8922a"/>
+    </svg>
+
+    <div class="section-label">Fale conosco</div>
+    <h2 class="section-title">Contato</h2>
+
+    <div class="contato-text">
+      <span>Envia um correio e entramos em contato com você em 24h. Falamos português, francês, inglês e espanhol.</span>
+      <em>Send an e-mail and we contact you in 24h. We speak Portugues, French, English and Spanish.</em>
+    </div>
+
+    <a href="mailto:alain@alpage.com.br" class="contato-email">alain@alpage.com.br</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2025 Alpage Inteligência — www.alpage.com.br</p>
+  <p>São Paulo, Brasil</p>
+</footer>
+
+<script>
+  // Sticky nav shadow
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 20);
+  });
+
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 80);
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  reveals.forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
