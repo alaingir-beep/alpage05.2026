@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Alpage Inteligência – www.alpage.com.br</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --navy: #1a2340;
+      --navy-light: #243058;
+      --gold: #b8922a;
+      --gold-light: #d4aa4a;
+      --white: #ffffff;
+      --off-white: #f7f6f3;
+      --text: #2c2c2c;
+      --text-light: #555;
+      --border: #e0ddd8;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Outfit', sans-serif; color: var(--text); background: var(--white); overflow-x: hidden; }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 48px; height: 64px;
+      background: rgba(255,255,255,0.97);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+      transition: box-shadow 0.3s;
+    }
+    nav.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.08); }
+    nav.nav-light {
+      background: rgba(255,255,255,0.97) !important;
+      border-bottom-color: var(--border) !important;
+    }
+    nav.nav-light .nav-links a { color: var(--navy) !important; }
+    nav.nav-light .nav-logo span { color: var(--navy) !important; }
+    nav.nav-dark {
+      background: transparent !important;
+      border-bottom-color: rgba(255,255,255,0.1) !important;
+    }
+    nav.nav-dark .nav-links a { color: var(--white) !important; }
+    nav.nav-dark .nav-logo span { color: var(--white) !important; }
+    nav { transition: background 0.4s ease, border-color 0.4s ease; }
+    nav .nav-links a { transition: color 0.3s ease; }
+    nav .nav-logo span { transition: color 0.3s ease; }
+    .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .nav-logo img { height: 36px; width: auto; }
+    .nav-logo span { font-size: 13px; font-weight: 400; color: var(--navy); letter-spacing: 0.04em; }
+    .nav-links { display: flex; gap: 36px; list-style: none; }
+    .nav-links a {
+      font-size: 13px; font-weight: 400; color: var(--navy);
+      text-decoration: none; letter-spacing: 0.03em; transition: color 0.2s;
+      position: relative;
+    }
+    .nav-links a::after {
+      content: ''; position: absolute; bottom: -2px; left: 0; right: 0;
+      height: 1px; background: var(--gold);
+      transform: scaleX(0); transition: transform 0.25s ease;
+    }
+    .nav-links a:hover { color: var(--gold); }
+    .nav-links a:hover::after { transform: scaleX(1); }
+
+    /* HERO */
+    #home {
+      position: relative; height: 100vh; height: 100svh; min-height: 600px;
+      display: flex; align-items: flex-end; justify-content: center;
+      overflow: hidden;
+    }
+    .hero-bg-img {
+      position: absolute; inset: 0;
+      background-size: cover; background-position: center top;
+      filter: brightness(0.45) saturate(0.7);
+    }
+    .hero-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to bottom, rgba(10,16,40,0.1) 0%, rgba(10,16,40,0.0) 40%, rgba(10,16,40,0.8) 100%);
+    }
+    .hero-content { position: relative; }
+    .hero-bottom {
+      position: relative; text-align: center;
+      padding: 0 24px 60px; width: 100%;
+      opacity: 0; animation: fadeUp 1s 0.4s ease both;
+    }
+    .hero-subtitle {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(18px, 2.5vw, 26px); font-weight: 300; font-style: italic;
+      color: rgba(255,255,255,0.9); letter-spacing: 0.06em;
+      margin-bottom: 10px;
+    }
+    .hero-tagline {
+      font-size: 13px; font-weight: 300;
+      color: rgba(255,255,255,0.5); letter-spacing: 0.12em; text-transform: uppercase;
+      margin-bottom: 32px;
+    }
+    .hero-scroll-inline {
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
+    }
+    .hero-scroll-inline span { font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(255,255,255,0.3); }
+    .scroll-line { width: 1px; height: 40px; background: linear-gradient(to bottom, rgba(184,146,42,0.6), transparent); animation: scrollPulse 2s 1.5s ease-in-out infinite; }
+
+    /* SECTIONS */
+    section { padding: 96px 0; }
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 48px; }
+    .section-label { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; font-weight: 500; }
+    .section-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(32px, 4vw, 48px); font-weight: 300; color: var(--navy); line-height: 1.15; margin-bottom: 32px; }
+
+    /* QUEM SOMOS */
+    .tagline-block { text-align: center; padding: 64px 48px; border-bottom: 1px solid var(--border); }
+    .tagline-block p { font-family: 'Cormorant Garamond', serif; font-size: clamp(20px, 3vw, 30px); font-weight: 400; color: var(--gold); font-style: italic; line-height: 1.4; max-width: 820px; margin: 0 auto; }
+    .about-grid { padding: 64px 0 0; } .about-single { margin-bottom: 48px; } .problems-grid-2col { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; padding: 48px 0; border-top: 1px solid var(--border); }
+    .about-text p { font-size: 15px; line-height: 1.8; color: #555555; margin-bottom: 20px; font-family: 'Outfit', sans-serif; font-weight: 400; }
+    .problems-col p, .problems-col li, .problems-col ul, .problems-col span { font-size: 15px !important; line-height: 1.8 !important; color: #555555 !important; font-family: 'Outfit', sans-serif !important; font-weight: 400 !important; }
+    .problems-col {}
+    .problems-block h3 { font-family: 'Cormorant Garamond', serif; font-size: 26px; font-weight: 600; color: var(--gold); margin-bottom: 20px; }
+    .problems-block > p { font-size: 15px; line-height: 1.7; color: var(--text-light); margin-bottom: 20px; }
+    .problems-list { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+    .problems-list li { display: flex; align-items: flex-start; gap: 14px; font-size: 14px; line-height: 1.6; color: var(--text-light); }
+    .problems-list li::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: var(--gold); flex-shrink: 0; margin-top: 8px; }
+
+    /* PROFILES */
+    .profiles-block { background: var(--navy); padding: 64px 0; margin-top: 64px; }
+    .profiles-block .section-label { color: var(--gold-light); }
+    .profiles-block .section-title { color: var(--white); }
+    .profiles-intro { font-size: 14px; color: rgba(255,255,255,0.6); margin-bottom: 36px; line-height: 1.7; }
+    .profiles-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    .profile-card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 2px; padding: 28px; transition: border-color 0.3s, background 0.3s; }
+    .profile-card:hover { border-color: rgba(184,146,42,0.4); background: rgba(255,255,255,0.08); }
+    .profile-card h4 { font-size: 14px; font-weight: 600; color: var(--gold-light); margin-bottom: 10px; }
+    .profile-card p { font-size: 13px; line-height: 1.7; color: rgba(255,255,255,0.6); }
+
+    /* SERVICOS */
+    #servicos { background: var(--off-white); }
+    .servicos-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-top: 48px; }
+    .servico-card { background: var(--white); border: 1px solid var(--border); overflow: hidden; transition: box-shadow 0.3s, transform 0.3s; }
+    .servico-card:hover { box-shadow: 0 12px 40px rgba(0,0,0,0.1); transform: translateY(-4px); }
+    .servico-card img { width: 100%; height: 220px; object-fit: cover; display: block; }
+    .servico-body { padding: 24px 28px 28px; }
+    .servico-body h3 { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 600; color: var(--gold); margin-bottom: 10px; }
+    .servico-body p { font-size: 14px; line-height: 1.7; color: var(--text-light); }
+
+    /* LIDERANCA */
+    #lideranca { background: var(--white); }
+    .lideranca-grid { display: grid; grid-template-columns: 1fr 1.5fr; gap: 72px; align-items: start; margin-top: 48px; }
+    .lideranca-photo { position: relative; }
+    .lideranca-photo img { width: 100%; display: block; }
+    .lideranca-photo::after { content: ''; position: absolute; bottom: -12px; right: -12px; width: 80%; height: 80%; border: 2px solid var(--gold); z-index: -1; }
+    .lideranca-bio p { font-size: 15px; line-height: 1.8; color: var(--text-light); margin-bottom: 18px; }
+    .lideranca-bio a { color: var(--gold); text-decoration: none; }
+    .lideranca-bio a:hover { text-decoration: underline; }
+    .valores-block { margin-top: 36px; border-top: 1px solid var(--border); padding-top: 28px; }
+    .valores-block h4 { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 600; color: var(--navy); margin-bottom: 20px; text-decoration: underline; text-underline-offset: 4px; text-decoration-color: var(--gold); }
+    .valores-list { list-style: none; display: flex; flex-direction: column; gap: 14px; }
+    .valores-list li { font-size: 14px; line-height: 1.65; color: var(--text-light); }
+    .valores-list li strong { color: var(--navy); font-weight: 600; }
+
+    /* CONTATO */
+    #contato { background: var(--navy); padding: 120px 0; text-align: center; }
+    #contato .section-label { color: var(--gold-light); }
+    #contato .section-title { color: var(--white); margin-bottom: 0; }
+    .contato-logo { width: 140px; height: auto; margin: 0 auto 40px; display: block; }
+    .contato-text { margin-top: 36px; font-size: 15px; line-height: 1.9; color: rgba(255,255,255,0.6); }
+    .contato-text em { display: block; font-style: italic; font-size: 13px; margin-top: 6px; color: rgba(255,255,255,0.4); }
+    .contato-email { display: inline-block; margin-top: 40px; font-family: 'Cormorant Garamond', serif; font-size: clamp(22px, 3vw, 32px); font-weight: 300; color: var(--gold-light); text-decoration: none; letter-spacing: 0.04em; border-bottom: 1px solid rgba(184,146,42,0.3); padding-bottom: 4px; transition: color 0.2s, border-color 0.2s; }
+    .contato-email:hover { color: var(--white); border-color: rgba(255,255,255,0.4); }
+
+    /* FOOTER */
+    footer { background: #0a1020; padding: 24px 48px; display: flex; align-items: center; justify-content: space-between; }
+    footer p { font-size: 12px; color: rgba(255,255,255,0.25); letter-spacing: 0.04em; }
+
+    /* ANIMATIONS */
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes scrollPulse { 0%, 100% { opacity: 0.4; } 50% { opacity: 1; } }
+    .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    @media (max-width: 768px) {
+      nav { padding: 0 20px; }
+      .nav-links { gap: 16px; }
+      .nav-links a { font-size: 11px; }
+      .container { padding: 0 24px; }
+      section { padding: 64px 0; }
+      .about-grid, .servicos-grid, .lideranca-grid, .profiles-grid { grid-template-columns: 1fr; gap: 32px; }
+      .tagline-block { padding: 48px 24px; }
+      footer { flex-direction: column; gap: 8px; text-align: center; }
+    }
+
+    @media (max-width: 768px) {
+      #home { height: 100svh; min-height: 500px; }
+      .hero-bg-img { background-size: cover; background-position: center center; background-attachment: scroll; }
+      .hero-bottom { padding: 0 16px 16px; }
+      .hero-subtitle { font-size: 18px; }
+      .hero-tagline { font-size: 11px; }
+      nav { padding: 0 16px; }
+      .nav-links { gap: 14px; }
+      .nav-links a { font-size: 11px; }
+      .container { padding: 0 20px; }
+      section { padding: 56px 0; }
+      .about-grid, .servicos-grid, .lideranca-grid, .profiles-grid, .problems-grid-2col { grid-template-columns: 1fr; gap: 28px; }
+      .tagline-block { padding: 40px 20px; }
+      .servico-card img { height: 180px; }
+      footer { flex-direction: column; gap: 8px; text-align: center; padding: 20px; }
+    }
+  </style>
+</head>
+<body>
+
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="#home" class="nav-logo">
+    <img src="images/logo.png" alt="Alpage logo" />
+    <span>www.alpage.com.br</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#quem-somos">Quem somos</a></li>
+    <li><a href="#servicos">Nossos serviços</a></li>
+    <li><a href="#lideranca">Liderança</a></li>
+    <li><a href="#contato">Contato</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="home">
+  <img class="hero-bg-img" src="images/hero.png" alt="" />
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+  </div>
+  <div class="hero-bottom">
+    <p class="hero-subtitle">Consultoria em Vendas &amp; Marketing B2B</p>
+    <p class="hero-tagline">Brasil · América Latina · Europa</p>
+    <div class="hero-scroll-inline">
+      <span>Descubra</span>
+      <div class="scroll-line"></div>
+    </div>
+  </div>
+</section>
+
+<!-- QUEM SOMOS -->
+<section id="quem-somos">
+  <div class="tagline-block">
+    <p>Seu mercado está lá. A gente ajuda a identificá-lo e construir o caminho para chegar até ele.</p>
+  </div>
+  <div class="container">
+    <div class="about-grid reveal">
+      <div class="about-single">
+        <div class="section-label">Quem somos</div>
+        <p>A ALPAGE INTELIGÊNCIA nasceu de 30 anos de experiência construindo operações comerciais em empresas industriais de grande porte no Brasil, na América Latina e na Europa. Somos especialistas em vendas e marketing B2B porque já estivemos no seu lugar — gerenciando equipes, definindo canais, batendo metas e tomando decisões com pressão real de mercado.</p>
+        <p>Hoje, colocamos esse conhecimento a serviço de empresas que querem crescer com estrutura: sem atalhos, sem soluções genéricas, com parceria de verdade.</p>
+      </div>
+      <div class="problems-grid-2col">
+        <div class="problems-col">
+          <h3 style="font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:600;color:var(--gold);margin-bottom:20px;">Os problemas que resolvemos :</h3>
+          <p style="font-size:15px;line-height:1.7;color:#555;margin-bottom:20px;">Muitas empresas industriais têm um produto sólido e uma equipe dedicada — mas uma estrutura comercial e marketing que não acompanha o potencial de mercado. Os sintomas são conhecidos:</p>
+          <ul class="problems-list">
+            <li>Vendas dependentes de relacionamentos individuais, sem processo replicável.</li>
+            <li>Canais de distribuição mal definidos, com sobreposição e conflito entre parceiros.</li>
+            <li>Marketing desconectado da área comercial — comunicação sem impacto em receita.</li>
+          </ul>
+        </div>
+        <div class="problems-col">
+          <ul class="problems-list" style="margin-top:0px;">
+            <li>Falta de inteligência de mercado para priorizar segmentos e oportunidades.</li>
+            <li>Dificuldade de entrada em novos mercados ou segmentos no Brasil e na América Latina.</li>
+            <li>Esses problemas custam receita, margem e tempo. E raramente se resolvem com mais esforço — se resolvem com estrutura.</li>
+            <li>Falta de posicionamento da marca e dos produtos dificultando a visibilidade da empresa no mercado.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="profiles-block reveal">
+    <div class="container">
+      <div class="section-label">Para quem trabalhamos</div>
+      <h2 class="section-title">Nossos clientes</h2>
+      <p class="profiles-intro">ALPAGE INTELIGÊNCIA atende preferencialmente empresas com os seguintes perfis:</p>
+      <div class="profiles-grid">
+        <div class="profile-card">
+          <h4>Empresas industriais B2B</h4>
+          <p>Empresas industriais e B2B de médio e grande porte que precisam estruturar ou reorganizar sua operação comercial.</p>
+        </div>
+        <div class="profile-card">
+          <h4>Multinacionais em expansão</h4>
+          <p>Empresas estrangeiras — especialmente europeias e francesas — que buscam entrar no mercado brasileiro ou expandir na América Latina.</p>
+        </div>
+        <div class="profile-card">
+          <h4>Empresas em crescimento acelerado</h4>
+          <p>Empresas em fase de crescimento que precisam profissionalizar vendas e marketing para escalar com consistência.</p>
+        </div>
+        <div class="profile-card">
+          <h4>Lideranças com demanda pontual</h4>
+          <p>Líderes que precisam de um parceiro sênior para projetos específicos — pesquisa de mercado, go-to-market, desenvolvimento de canais.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NOSSOS SERVIÇOS -->
+<section id="servicos">
+  <div class="container">
+    <div class="section-label">O que fazemos</div>
+    <h2 class="section-title">Nossos serviços</h2>
+    <div class="servicos-grid">
+      <div class="servico-card reveal">
+        <img src="images/img1-comercial.png" alt="Estruturação comercial" />
+        <div class="servico-body">
+          <h3>Estruturação comercial</h3>
+          <p>Diagnóstico e redesenho da força de vendas: processos, papéis, metas e modelo de atuação</p>
+        </div>
+      </div>
+      <div class="servico-card reveal">
+        <img src="images/img2-canais.png" alt="Canais e go-to-market" />
+        <div class="servico-body">
+          <h3>Canais e go-to-market</h3>
+          <p>Definição de política de canais, seleção e desenvolvimento de distribuidores e parceiros</p>
+        </div>
+      </div>
+      <div class="servico-card reveal">
+        <img src="images/img3-marketing.png" alt="Marketing B2B" />
+        <div class="servico-body">
+          <h3>Marketing B2B</h3>
+          <p>Inteligência de mercado, segmentação, posicionamento e proposta de valor conectados à área comercial</p>
+        </div>
+      </div>
+      <div class="servico-card reveal">
+        <img src="images/img4-expansao.png" alt="Expansão de mercado" />
+        <div class="servico-body">
+          <h3>Expansão de mercado</h3>
+          <p>Suporte a empresas estrangeiras que buscam entrar ou crescer no Brasil e na LATAM</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LIDERANÇA -->
+<section id="lideranca">
+  <div class="container">
+    <div class="section-label">Quem lidera</div>
+    <h2 class="section-title">Liderança</h2>
+    <div class="lideranca-grid reveal">
+      <div class="lideranca-photo">
+        <img src="images/lideranca.jpeg" alt="Alain Girard" />
+      </div>
+      <div class="lideranca-bio">
+        <p>Formado em engenharia na França e em Negócios Internacionais pela FGV no Brasil, <a href="https://www.linkedin.com/in/alaingirard" target="_blank">Alain Girard</a> tem mais de 30 anos de carreira em vendas e marketing B2B — com passagens por Europa, África e América do Sul.</p>
+        <p>No Brasil desde 2004, liderou as áreas de Vendas e Marketing de várias empresas multinacionais. Ele estruturou operações comerciais do zero, criou redes de distribuição, posicionou a marca e desenvolveu novos mercados. Liderou transformações e inovação que geraram crescimento real e mensurável.</p>
+        <p>Fundou a <strong>ALPAGE INTELIGÊNCIA</strong> para colocar esse know-how a serviço de empresas que precisam de um parceiro comercial experiente — sem a estrutura e o custo de uma grande consultoria, mas com o nível de profundidade e comprometimento de quem já esteve na linha de frente.</p>
+        <div class="valores-block">
+          <h4>Nossos valores</h4>
+          <ul class="valores-list">
+            <li><strong>Parceria de verdade.</strong> Construímos junto — nenhum diagnóstico entregue à distância.</li>
+            <li><strong>Execução antes de teoria.</strong> Saímos do PowerPoint e vamos ao campo.</li>
+            <li><strong>Orientação a resultado.</strong> Cada recomendação tem um número por trás.</li>
+            <li><strong>Disciplina da execução.</strong> Porque um bom plano só vira resultado quando é executado com rigor.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTATO -->
+<section id="contato">
+  <div class="container">
+    <img class="contato-logo" src="images/logo.png" alt="Alpage Inteligência" />
+    <div class="section-label">Fale conosco</div>
+    <h2 class="section-title">Contato</h2>
+    <div class="contato-text">
+      <span>Envia um correio e entramos em contato com você em 24h. Falamos português, francês, inglês e espanhol.</span>
+      <em>Send an e-mail and we contact you in 24h. We speak Portugues, French, English and Spanish.</em>
+    </div>
+    <a href="mailto:alain@alpage.com.br" class="contato-email">alain@alpage.com.br</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2025 Alpage Inteligência — www.alpage.com.br</p>
+  <p>São Paulo, Brasil</p>
+</footer>
+
+<script>
+  const navbar = document.getElementById('navbar');
+  const heroSection = document.getElementById('home');
+  const navToggle = document.getElementById('nav-toggle');
+
+  function updateNav() {
+    const heroBottom = heroSection.getBoundingClientRect().bottom;
+    if (heroBottom <= 52) {
+      navbar.classList.add('nav-light');
+      navbar.classList.remove('nav-dark');
+    } else {
+      navbar.classList.remove('nav-light');
+      navbar.classList.add('nav-dark');
+    }
+    navbar.classList.toggle('scrolled', window.scrollY > 20);
+  }
+  window.addEventListener('scroll', updateNav);
+  updateNav();
+
+  if (navToggle) {
+    navToggle.addEventListener('click', function() {
+      navbar.classList.toggle('nav-mobile-open');
+    });
+    // Close menu when a link is clicked
+    document.querySelectorAll('.nav-links a').forEach(function(link) {
+      link.addEventListener('click', function() {
+        navbar.classList.remove('nav-mobile-open');
+      });
+    });
+  }
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 80);
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  reveals.forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
